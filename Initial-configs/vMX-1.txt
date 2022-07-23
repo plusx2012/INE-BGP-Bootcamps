@@ -1,0 +1,29 @@
+[edit]
+root@vMX-1# run show configuration | display set 
+set version 18.2R1.9
+set groups group_name system host-name vMX-1
+set apply-groups group_name
+set system root-authentication encrypted-password "$6$9gjQw5kL$ryv/8El0vRAtMRH/WiNpX/CnUZkGEtawuLRai0.4YBDV8FTb2ntTynH8ZxkxW7127JMY1iQB11v5fGw2R5t0E/"
+set system syslog user * any emergency
+set system syslog file messages any notice
+set system syslog file messages authorization info
+set system syslog file interactive-commands interactive-commands any
+set system processes dhcp-service traceoptions file dhcp_logfile
+set system processes dhcp-service traceoptions file size 10m
+set system processes dhcp-service traceoptions level all
+set system processes dhcp-service traceoptions flag packet
+set interfaces ge-0/0/0 unit 0 family inet address 192.168.12.1/24
+set interfaces ge-0/0/1 unit 0 family inet address 192.168.1.254/24
+set interfaces ge-0/0/2 unit 0 family inet address 192.168.13.1/24
+set interfaces fxp0 unit 0 family inet dhcp vendor-id Juniper-vmx-VM62D6499CBA
+set interfaces lo0 unit 0 family inet address 1.1.1.1/32
+set routing-options autonomous-system 1
+set protocols bgp export ADVLo0
+set protocols bgp group eBGP peer-as 2345
+set protocols bgp group eBGP neighbor 192.168.12.2 peer-as 2345
+set protocols bgp group eBGP neighbor 192.168.13.3
+set policy-options policy-statement ADVLo0 term 1 from protocol direct
+set policy-options policy-statement ADVLo0 term 1 from route-filter 1.1.1.1/32 exact
+set policy-options policy-statement ADVLo0 term 1 then accept
+
+[edit]

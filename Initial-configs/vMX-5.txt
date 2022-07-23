@@ -1,0 +1,41 @@
+root@vMX-5# run show configuration | display set            
+set version 18.2R1.9
+set groups group_name system host-name vMX-5
+set apply-groups group_name
+set system root-authentication encrypted-password "$6$QCYtt0.8$v50j0Aw8wPrk1iOfE2WPm0H6bfALg5o7VXKXfbZdknX5x6R84HUp7fT4k3UYcjHFg71g5IRzljNGsva1nqv571"
+set system syslog user * any emergency
+set system syslog file messages any notice
+set system syslog file messages authorization info
+set system syslog file interactive-commands interactive-commands any
+set system processes dhcp-service traceoptions file dhcp_logfile
+set system processes dhcp-service traceoptions file size 10m
+set system processes dhcp-service traceoptions level all
+set system processes dhcp-service traceoptions flag packet
+set interfaces ge-0/0/0 unit 0 family inet address 192.168.45.5/24
+set interfaces ge-0/0/1 unit 0 family inet address 192.168.56.5/24
+set interfaces ge-0/0/2 unit 0 family inet address 192.168.25.5/24
+set interfaces fxp0 unit 0 family inet dhcp vendor-id Juniper-vmx-VM62D649AE6B
+set interfaces lo0 unit 0 family inet address 5.5.5.5/32
+set routing-options router-id 5.5.5.5
+set routing-options autonomous-system 2345
+set protocols bgp export ADvLo0
+set protocols bgp group eBGP type external
+set protocols bgp group eBGP neighbor 192.168.56.6 peer-as 6
+set protocols bgp group iBGP type internal
+set protocols bgp group iBGP export NHSelf
+set protocols bgp group iBGP cluster 5.5.5.5
+set protocols bgp group iBGP neighbor 2.2.2.2 local-address 5.5.5.5
+set protocols bgp group iBGP neighbor 2.2.2.2 peer-as 2345
+set protocols bgp group iBGP neighbor 4.4.4.4 local-address 5.5.5.5
+set protocols bgp group iBGP neighbor 4.4.4.4 peer-as 2345
+set protocols ospf area 0.0.0.0 interface ge-0/0/2.0
+set protocols ospf area 0.0.0.0 interface ge-0/0/0.0
+set protocols ospf area 0.0.0.0 interface lo0.0
+set policy-options policy-statement ADvLo0 term 1 from protocol direct
+set policy-options policy-statement ADvLo0 term 1 from route-filter 5.5.5.5/32 exact
+set policy-options policy-statement ADvLo0 term 1 then accept
+set policy-options policy-statement NHSelf term 1 from protocol bgp
+set policy-options policy-statement NHSelf term 1 from route-type external
+set policy-options policy-statement NHSelf term 1 then next-hop self
+
+[edit]

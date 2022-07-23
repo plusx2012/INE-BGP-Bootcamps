@@ -1,0 +1,256 @@
+R4>ena
+R4#show run
+Building configuration...
+
+Current configuration : 4840 bytes
+!
+! Last configuration change at 13:21:07 UTC Tue Jul 19 2022
+!
+version 16.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname R4
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!         
+!
+!
+!
+!
+!
+!
+login on-success log
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+! 
+! 
+! 
+! 
+!
+multilink bundle-name authenticated
+!
+!         
+!
+!
+!
+crypto pki trustpoint TP-self-signed-3373653787
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-3373653787
+ revocation-check none
+ rsakeypair TP-self-signed-3373653787
+!
+!
+crypto pki certificate chain TP-self-signed-3373653787
+ certificate self-signed 01
+  30820330 30820218 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 33333733 36353337 3837301E 170D3232 30373139 30353538 
+  32385A17 0D333030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D33 33373336 
+  35333738 37308201 22300D06 092A8648 86F70D01 01010500 0382010F 00308201 
+  0A028201 0100F265 324C085A CDC7CD2C B8A04B7F EC57241F 14CCC23D A5904FAD 
+  3EAF0BCC 51B576E4 CC6447B5 C3ED4834 DADA8701 C57CAD1A B5D6E6A9 DA3B5132 
+  A59E06D2 8E0FA404 DB15BA2D 631420D7 00B3FA96 1BE56BE3 B44C7E5B F2C85F5D 
+  CC6C423E 4D9C2CC5 30942843 65DD99BD 21820D45 BC32E099 F12FDD9C 8F95BD19 
+  3C7B5AA8 6F6D2939 B00B6C0B FA6352C1 9B6E6D3F 37755359 61A2C77A 49F881B1 
+  66660964 0435740D 219EFA14 89CE02F1 F311D0E4 CE932962 919C238B D1D994D2 
+  3487BCA5 CAB48B22 73082837 F5B5EC00 8A4CFE9F 8E45267E 7E19F5C3 EB5E5C4D 
+  21A0C447 154CFA70 49F92E3F EE7FF534 A9D8D215 E2A45AE3 17D19F09 41D7CBF2 
+  1B9B1A15 17C50203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 
+  301F0603 551D2304 18301680 144123A5 A87A9B5C 290C2985 20E5D733 64939A52 
+  2B301D06 03551D0E 04160414 4123A5A8 7A9B5C29 0C298520 E5D73364 939A522B 
+  300D0609 2A864886 F70D0101 05050003 82010100 8703379B 31994FB6 92961751 
+  A596190E 4CDD9EC7 866328B7 0404A487 03231886 D64BA41A 4F343C78 F51B09D0 
+  594F32BF A9390C0F BB224704 11880B75 8E5C02A6 9E2BCA3A DB6B4E1D 5045D3EF 
+  854BCE25 B908735F BE940321 0772E7EC 0754A072 B5DA42EB DEA87E09 9A6C754E 
+  CB85A811 7083CABB 78FA9BA3 39071880 F4DF3E8B 70C93C10 E6C9AE73 8C98A091 
+  8B9CDAAC 960355DC 71EBB9AC 84E9A96B 6818311A 2F67580E 65EBDF7E 73E90F6A 
+  57661F5B 1D3EDC1B A728671B 39AF988C DD0EC8A0 53F51A33 CD7BF1EF 6F79AF43 
+  7F49D314 835764D7 738A7DFB DFFC799A 65E7AAC4 CBC0574E 017AAE36 E0A62261 
+  D3780082 0F817B0B E2977D4C 784C830D D8E8FBD5
+        quit
+!
+!
+!
+!
+!
+!
+!         
+!
+license udi pid CSR1000V sn 9L7HLVTJ33S
+no license smart enable
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!         
+!
+!
+!
+!
+!
+!
+!
+! 
+! 
+!
+!
+interface Loopback0
+ ip address 4.4.4.4 255.255.255.255
+!
+interface GigabitEthernet1
+ ip address 192.168.34.4 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet2
+ ip address 192.168.46.4 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ ip address 192.168.48.4 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet4
+ ip address 192.168.45.4 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet5
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet6
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet7
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet8
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet9
+ no ip address
+ shutdown 
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet10
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet11
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet12
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+router ospf 1
+ network 4.4.4.4 0.0.0.0 area 0
+ network 192.168.34.0 0.0.0.255 area 0
+ network 192.168.45.0 0.0.0.255 area 0
+!
+router bgp 2345
+ bgp log-neighbor-changes
+ neighbor 3.3.3.3 remote-as 2345
+ neighbor 3.3.3.3 update-source Loopback0
+ neighbor 3.3.3.3 next-hop-self
+ neighbor 5.5.5.5 remote-as 2345
+ neighbor 5.5.5.5 update-source Loopback0
+ neighbor 5.5.5.5 next-hop-self
+ neighbor 192.168.46.6 remote-as 6
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+!
+!         
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ stopbits 1
+line vty 0 4
+ login
+!
+!
+!
+!
+!
+!
+end
