@@ -1,0 +1,217 @@
+R6#show ip bgp    
+BGP table version is 9, local router ID is 192.168.6.254
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal, 
+              r RIB-failure, S Stale, m multipath, b backup-path, f RT-Filter, 
+              x best-external, a additional-path, c RIB-compressed, 
+              t secondary path, L long-lived-stale,
+Origin codes: i - IGP, e - EGP, ? - incomplete
+RPKI validation codes: V valid, I invalid, N Not found
+
+     Network          Next Hop            Metric LocPrf Weight Path
+ *    1.1.1.1/32       192.168.56.5                           0 2345 1 i
+ *>                    192.168.46.4                           0 2345 1 i
+ *>   2.2.2.2/32       192.168.46.4                           0 2345 i
+ *>   3.3.3.3/32       192.168.46.4                           0 2345 i
+ *>   4.4.4.4/32       192.168.46.4             0             0 2345 i
+ *>   5.5.5.5/32       192.168.46.4                           0 2345 i
+ *                     192.168.56.5                           0 2345 i
+ *>   6.6.6.6/32       0.0.0.0                  0         32768 i
+ *    11.11.11.11/32   192.168.56.5                           0 2345 1 i
+ *>                    192.168.46.4                           0 2345 1 i
+ *>   66.66.66.66/32   0.0.0.0                  0         32768 i
+
+ ----
+
+R6#show run
+Building configuration...
+
+Current configuration : 4957 bytes
+!
+! Last configuration change at 15:30:59 UTC Sat Jul 23 2022
+!
+version 16.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname R6
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!         
+!
+!
+!
+!
+!
+!
+login on-success log
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+! 
+! 
+! 
+! 
+!
+multilink bundle-name authenticated
+!
+!         
+!
+!
+!
+crypto pki trustpoint TP-self-signed-2881516941
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2881516941
+ revocation-check none
+ rsakeypair TP-self-signed-2881516941
+!
+!
+crypto pki certificate chain TP-self-signed-2881516941
+ certificate self-signed 01
+  30820330 30820218 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 32383831 35313639 3431301E 170D3232 30373139 30353538 
+  33315A17 0D333030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D32 38383135 
+  31363934 31308201 22300D06 092A8648 86F70D01 01010500 0382010F 00308201 
+  0A028201 0100E014 4F2E6FC0 74BD8D4A F177CAFA CC3A8ACC 8B7CDD72 D04280BB 
+  84A0AA77 CDE719C6 126F7C7B 2A4C773C F799256B 411F98DF 4C62808B D29AB9BA 
+  2E378717 FFACB206 6D4402EC 2439C450 E41A3014 EE57629D 7A62D2BC 3180A414 
+  F1B9E7F6 06DA20D6 4DAB4B8D 8203DBFD 0931BBF1 447B1AB0 10E0051C F83042D2 
+  D1E9B363 E5055C60 963A9206 9C66311F 9221D0BA F381DE6F C734EF63 886CD6FE 
+  471044F6 1C122C00 0CB86061 8FAF1920 F8E6333D 8894DA36 FF69C5BC 15385B55 
+  B9ACB226 E2CC472C 1A4F1D19 5374DF54 2CAFCC8F 8E50B2DB 36E658CE 41A7F805 
+  88669EBF 8B41A66F 4CA264A3 935F1884 85199CDC 320341B3 0E168A07 612EF923 
+  8EB2423C 97550203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 
+  301F0603 551D2304 18301680 14E75621 5EC27155 4466A271 D06BFDC4 AE7CE21A 
+  DA301D06 03551D0E 04160414 E756215E C2715544 66A271D0 6BFDC4AE 7CE21ADA 
+  300D0609 2A864886 F70D0101 05050003 82010100 95BB94D5 18A3B884 AD16521C 
+  D3DED6C3 E62001BF 8DBDAE9C 9450209C 2816894B 1B13470F 66317714 C9A483B4 
+  8C1590B1 C156A3B3 7C9C61EA C8F5A1A8 D3B8E3A9 FD79E3CF F74D86BE 62BBCF6B 
+  70A53DAD 5A449456 86E21F01 A5BF25AD 555D5798 353862BC 064D8B75 ED40E7C6 
+  DCC27D41 246A88A5 A9D016C5 A3D85D11 72626971 8215FAC9 46F4C3B0 394FE13F 
+  212DF9C7 C587B30B 59BF6C04 1F82501F 10D05B56 DB925757 9162D773 6314D54F 
+  5A10D0FC 91C5179E 2107A0F7 06C4C51F 33BF2E0C 6B73DAF6 8E4EE0D5 F2BA8E08 
+  DFC38830 FF41433B 5D5ABC71 3C129C81 686013F4 DB89BF8B 6B6C6696 94E08C1A 
+  5BD0550C B11A7729 56AB3B27 8CDC87FF 0A1F34A6
+        quit
+!
+!
+!
+!
+!
+!
+!         
+!
+license udi pid CSR1000V sn 9OPAEPHJEDB
+no license smart enable
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+!
+!
+!
+redundancy
+!
+!
+!
+
+!
+!
+interface Loopback0
+ ip address 6.6.6.6 255.255.255.255
+!
+interface Loopback1
+ ip address 66.66.66.66 255.255.255.255
+!
+interface Loopback6
+ ip address 192.168.6.254 255.255.255.255
+!
+interface GigabitEthernet1
+ no ip address
+ shutdown 
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet2
+ ip address 192.168.46.6 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ ip address 192.168.56.6 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet4
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!         
+!
+router bgp 6
+ bgp log-neighbor-changes
+ network 6.6.6.6 mask 255.255.255.255
+ network 66.66.66.66 mask 255.255.255.255
+ neighbor 192.168.46.4 remote-as 2345
+ neighbor 192.168.56.5 remote-as 2345
+ neighbor 192.168.56.5 route-map ATT in
+ neighbor 192.168.68.8 remote-as 78
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+!
+!
+access-list 1 permit 1.1.1.1
+access-list 1 permit 11.11.11.11
+!
+!
+route-map ATT permit 10 
+ match ip address 1
+ set local-preference 101
+!
+route-map ATT permit 10000 
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ stopbits 1
+line vty 0 4
+ login
+!
+!
+!
+!
+!
+!
+end

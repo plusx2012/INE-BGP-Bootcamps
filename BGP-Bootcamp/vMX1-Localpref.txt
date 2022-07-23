@@ -1,0 +1,79 @@
+root@vMX-1# run show route protocol bgp    
+
+inet.0: 14 destinations, 17 routes (14 active, 0 holddown, 0 hidden)
++ = Active Route, - = Last Active, * = Both
+
+2.2.2.2/32         *[BGP/170] 00:38:21, localpref 100
+                      AS path: 2345 I, validation-state: unverified
+                    > to 192.168.13.3 via ge-0/0/2.0
+                    [BGP/170] 00:37:57, localpref 100
+                      AS path: 2345 I, validation-state: unverified
+                    > to 192.168.12.2 via ge-0/0/0.0
+3.3.3.3/32         *[BGP/170] 00:38:21, MED 0, localpref 100
+                      AS path: 2345 I, validation-state: unverified
+                    > to 192.168.13.3 via ge-0/0/2.0
+4.4.4.4/32         *[BGP/170] 00:38:21, localpref 100
+                      AS path: 2345 I, validation-state: unverified
+                    > to 192.168.13.3 via ge-0/0/2.0
+6.6.6.6/32         *[BGP/170] 00:00:14, localpref 200
+                      AS path: 2345 6 I, validation-state: unverified
+                    > to 192.168.12.2 via ge-0/0/0.0
+                    [BGP/170] 00:36:47, localpref 100
+                      AS path: 2345 6 I, validation-state: unverified
+                    > to 192.168.13.3 via ge-0/0/2.0
+66.66.66.66/32     *[BGP/170] 00:00:14, localpref 200
+                      AS path: 2345 6 I, validation-state: unverified
+                    > to 192.168.12.2 via ge-0/0/0.0
+                    [BGP/170] 00:36:47, localpref 100
+                      AS path: 2345 6 I, validation-state: unverified
+                    > to 192.168.13.3 via ge-0/0/2.0
+
+inet6.0: 1 destinations, 1 routes (1 active, 0 holddown, 0 hidden)
+
+[edit]
+root@vMX-1# run traceroute 6.6.6.6 source 1.1.1.1 
+traceroute to 6.6.6.6 (6.6.6.6) from 1.1.1.1, 30 hops max, 52 byte packets
+ 1  192.168.12.2 (192.168.12.2)  3.325 ms  2.736 ms  2.691 ms
+ 2  192.168.25.5 (192.168.25.5)  3.489 ms  3.593 ms  3.868 ms
+ 3  192.168.56.6 (192.168.56.6)  45.605 ms *  5.181 ms
+
+[edit]
+
+------
+root@vMX-1# run show configuration | display set 
+set version 18.2R1.9
+set groups group_name system host-name vMX-1
+set apply-groups group_name
+set system root-authentication encrypted-password "$6$9gjQw5kL$ryv/8El0vRAtMRH/WiNpX/CnUZkGEtawuLRai0.4YBDV8FTb2ntTynH8ZxkxW7127JMY1iQB11v5fGw2R5t0E/"
+set system syslog user * any emergency
+set system syslog file messages any notice
+set system syslog file messages authorization info
+set system syslog file interactive-commands interactive-commands any
+set system processes dhcp-service traceoptions file dhcp_logfile
+set system processes dhcp-service traceoptions file size 10m
+set system processes dhcp-service traceoptions level all
+set system processes dhcp-service traceoptions flag packet
+set interfaces ge-0/0/0 unit 0 family inet address 192.168.12.1/24
+set interfaces ge-0/0/1 unit 0 family inet address 192.168.1.254/24
+set interfaces ge-0/0/2 unit 0 family inet address 192.168.13.1/24
+set interfaces ge-0/0/3 unit 0 family inet address 192.168.17.1/24
+set interfaces fxp0 unit 0 family inet dhcp vendor-id Juniper-vmx-VM62D6499CBA
+set interfaces lo0 unit 0 family inet address 1.1.1.1/32
+set interfaces lo0 unit 0 family inet address 11.11.11.11/32
+set routing-options autonomous-system 1
+set protocols bgp export ADVLo0
+set protocols bgp group eBGP peer-as 2345
+set protocols bgp group eBGP neighbor 192.168.12.2 import LocalPREF
+set protocols bgp group eBGP neighbor 192.168.12.2 peer-as 2345
+set protocols bgp group eBGP neighbor 192.168.13.3
+set protocols bgp group eBGP neighbor 192.168.17.7 peer-as 78
+set policy-options policy-statement ADVLo0 term 1 from protocol direct
+set policy-options policy-statement ADVLo0 term 1 from route-filter 1.1.1.1/32 exact
+set policy-options policy-statement ADVLo0 term 1 from route-filter 11.11.11.11/32 exact
+set policy-options policy-statement ADVLo0 term 1 then accept
+set policy-options policy-statement LocalPREF term 1 from protocol bgp
+set policy-options policy-statement LocalPREF term 1 from route-filter 6.6.6.6/32 exact
+set policy-options policy-statement LocalPREF term 1 from route-filter 66.66.66.66/32 exact
+set policy-options policy-statement LocalPREF term 1 then local-preference 200
+
+[edit]
